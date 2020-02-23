@@ -261,13 +261,14 @@ class AwsS3Adapter extends AbstractAdapter implements CanOverwriteFiles
      *
      * @param string $directory
      * @param bool   $recursive
+     * @param array  $options
      *
      * @return array
      */
-    public function listContents($directory = '', $recursive = false)
+    public function listContents($directory = '', $recursive = false, $options = [])
     {
         $prefix = $this->applyPathPrefix(rtrim($directory, '/') . '/');
-        $options = ['Bucket' => $this->bucket, 'Prefix' => ltrim($prefix, '/')];
+        $options = array_merge(['Bucket' => $this->bucket, 'Prefix' => ltrim($prefix, '/')], $options);
 
         if ($recursive === false) {
             $options['Delimiter'] = '/';
